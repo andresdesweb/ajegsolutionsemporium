@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Contact Form 03</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="formClientlib/css/style.css">
+
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-12">
+					<div class="wrapper">
+						<div class="row mb-5">
+						</div>
+						<div class="row no-gutters">
+							<div class="col-md-7">
+								<div class="contact-wrap w-100 p-md-5 p-4">
+									<h3 class="mb-4">Registro de empleados</h3>
+									<div id="form-message-warning" class="mb-4"></div> 
+				      		<div id="form-message-success" class="mb-4">
+				            Your message was sent, thank you!
+				      		</div>
+									<form method="POST" id="contactForm" name="contactForm" class="contactForm">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label class="label" for="subject">ID checador</label>
+													<input type="text" placeholder="Número en checador" class="form-control" name="txtIdChecador" id="txtIdChecador">
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label" for="email">Apellido paterno</label>
+													<input type="text" placeholder="Apellido paterno" class="form-control" name="txtApellido_p" id="txtApellido_p">
+												</div>
+											</div>
+											
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="label" for="name">Apellido materno</label>
+													<input type="text" placeholder="Apellido materno" class="form-control" name="txtApellido_m" id="txtApellido_m">
+													
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label" for="email">Nombre</label>
+													<input type="text" placeholder="Nombre" class="form-control" name="txtNombre" id="txtNombre">
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label" for="email">Segundo nombre</label>
+													<input type="text" placeholder="Segundo nombre" class="form-control" name="txtSegundoNombre" id="txtSegundoNombre">
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label" for="email">Departamento</label>
+													<select id="txtDepartamento" class="form-control"></select>
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label" for="email">Dirección</label>
+													<select id="txtDireccion" class="form-control"></select>
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label" for="email">Ingreso</label>
+													<input type="date" id="txtIngreso" class="form-control" placeholder="Fecha de ingreso">
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label" for="email">Email</label>
+													<input type="mail" id="txtMail" placeholder="Email" class="form-control">
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label" for="email">Horario entrada</label>
+													<input type="time" id="txtEntrada" class="form-control" placeholder="Horario de entrada">
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label" for="email">Horario salida</label>
+													<input type="time" id="txtSalida" class="form-control" placeholder="Horario de salida">
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label" for="email">Puesto</label>
+													<input type="text" id="txtPuesto" placeholder="Puesto" class="form-control">
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="submit" value="Send Message" class="btn btn-primary">
+													<div class="submitting"></div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+							<div class="col-md-5 d-flex align-items-stretch">
+								<div class="info-wrap w-100 p-5 img" style="background-image: url(formClientlib/images/img.jpg);">
+			          </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<script src="formClientlib/js/jquery.min.js"></script>
+  <script src="formClientlib/js/popper.js"></script>
+  <script src="formClientlib/js/bootstrap.min.js"></script>
+  <script src="formClientlib/js/jquery.validate.min.js"></script>
+  <script src="formClientlib/js/main.js"></script>
+
+	</body>
+</html>
+

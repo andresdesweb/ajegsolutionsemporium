@@ -1,0 +1,55 @@
+/*[ FONT SIZE ]
+///////////////////////////////////////////////////////////
+*/
+.barra-princpal{
+	background-color: #b70e1b !important;
+	
+}
+.btn-success{
+	background-color: #000000 !important;
+    border-color: #000000 !important;
+}
+.colorTexto{
+	color: #fff !important;
+}
+.col-sm-6{
+	padding-bottom: 25px;
+}
+
+.modal-footer{
+	border-style: hidden;
+}
+
+.btn, .btn-primary{
+	padding: 10px 15px !important;
+    border-radius: 0 !important;
+    color: #fff !important;
+    margin-top: 10px;
+    /*float: right;*/
+}
+
+.d-none{
+	display: none;
+}
+.required{
+	color:red;
+}
+.input-required{
+	border-color: red;
+}
+ .incidencia-aprobada{
+	 background-color: green !important;
+	 color: #fff;
+ }
+ .incidencia-no-aprobada{
+	background-color: red !important;
+	color: #fff;
+}
+
+.error-msg-input{
+	border: 2px solid red;
+  	border-radius: 4px;
+}
+
+
+

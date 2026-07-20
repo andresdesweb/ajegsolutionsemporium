@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<title>GRUPO EMPORIUM</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<script src="https://kit.fontawesome.com/d505aa600a.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js" integrity="sha512-wT7uPE7tOP6w4o28u1DN775jYjHQApdBnib5Pho4RB0Pgd9y7eSkAV1BTqQydupYDB9GBhTcQQzyNMPMV3cAew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="css/styleMain.css"/>
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .barra-princpal {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .modern-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+            border: none;
+            padding: 30px 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+        .modern-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+            color: inherit;
+        }
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .modal-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        .modal-title {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .form-control {
+            border-radius: 6px;
+        }
+        .hero-section {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-weight: 700;
+            color: #2c3e50;
+        }
+        .hero-section p {
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
+        .btn-modern {
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, #343a40, #000000);
+            border: none;
+            color: #ffffff;
+        }
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, #212529, #000000);
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="home" viewBox="0 0 16 16">
+            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+        </symbol>
+        <symbol id="nuevo" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+        </symbol>
+        <symbol id="people-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+        </symbol>
+    </svg>
+
+    <header class="sticky-top">
+        <div class="px-3 py-2 bg-dark text-white colorTexto barra-princpal sticky-top">
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="#" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                        <img src="images/Grupo-Emporium-Transparente-fondos-oscuros.png" class="img-responsive" style="width: 100px; height: auto;">
+                    </a>
+                    
+                    <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                        <li>
+                            <a href="principal.html" class="nav-link text-white">
+                                <svg class="bi d-block mx-auto mb-1 " width="24" height="24"><use xlink:href="#home"/></svg>
+                                Menú principal
+                            </a>
+                        </li>
+                        <li>
+                            <a href="index.html" class="nav-link text-white CierraSesion">
+                                <svg class="bi d-block mx-auto mb-1 " width="24" height="24"><use xlink:href="#nuevo"/></svg>
+                                Cerrar sesión
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link text-white">
+                                <svg class="bi d-block mx-auto mb-1 " width="24" height="24"><use xlink:href="#people-circle"/></svg>
+                                <p id="usaSistema" class="mb-0"></p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero-section">
+            <h1 class="display-4">¡Bienvenido!</h1>
+            <p class="lead">Seleccione el módulo al que desea ingresar.</p>
+        </section>
+
+        <!-- Dynamic modules container -->
+        <div class="row appsDespliegue justify-content-center">
+            <!-- Cards will be injected here by menuDespliegue.js -->
+        </div>
+    </main>
+
+    <!-- Modal Change Password -->
+    <div class="modal fade" id="cambiaContrasena" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">¡Importante!</h5>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mb-4">Al ser la primera vez que ingresas, debes cambiar tu contraseña.</p>
+                    
+                    <div class="mb-3 text-start">
+                        <label class="form-label text-muted">Antigua contraseña</label>
+                        <input type="password" class="form-control" id="antiguaContra">
+                    </div>
+                    
+                    <div class="mb-3 text-start">
+                        <label class="form-label text-muted">Tu nueva contraseña</label>
+                        <input type="password" id="nuevaContra" class="form-control">
+                    </div>
+                    
+                    <div class="mb-4 text-start">
+                        <label class="form-label text-muted">Confirma tu nueva contraseña</label>
+                        <input type="password" id="confNuevaContra" class="form-control">
+                    </div>
+                    
+                    <div class="form-check text-start d-inline-block">
+                        <input class="form-check-input" type="checkbox" id="verPass" onclick="mostrarPassword()">
+                        <label class="form-check-label" for="verPass">Mostrar contraseñas</label>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center border-0 pb-4">
+                    <button type="button" class="btn btn-modern px-5" onclick="cambiaContrasena()">Cambiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="menuPrincipal/js/newUser.js"></script>
+    <script src="menuPrincipal/js/menuDespliegue.js"></script>
+</body>
+</html>

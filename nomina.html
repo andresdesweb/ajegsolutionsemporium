@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>GRUPO EMPORIUM</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<script src="https://kit.fontawesome.com/d505aa600a.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js" integrity="sha512-wT7uPE7tOP6w4o28u1DN775jYjHQApdBnib5Pho4RB0Pgd9y7eSkAV1BTqQydupYDB9GBhTcQQzyNMPMV3cAew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.4/datatables.min.css"/>
+	<link rel="stylesheet" type="text/css" href="css/styleMain.css"/>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/b-1.5.6/b-flash-1.5.6/b-html5-1.5.6/b-print-1.5.6/r-2.2.2/datatables.min.css"/>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/b-1.5.6/b-flash-1.5.6/b-html5-1.5.6/b-print-1.5.6/r-2.2.2/datatables.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+	<script type="text/javascript" src="js/tablasEjemplo.js"></script>
+	<script type="text/javascript" src="js/commonScrip.js"></script>
+	<script type="text/javascript" src="js/tablasEjemploServices.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--===============================================================================================-->
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .barra-princpal {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .app-title {
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            display: inline-block;
+        }
+        .app-title::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background: #198754;
+            bottom: -10px;
+            left: 25%;
+            border-radius: 2px;
+        }
+        .btn-modern {
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-modern:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        .btn-dark.btn-modern {
+            background: linear-gradient(135deg, #343a40, #000000);
+            border: none;
+            color: #ffffff;
+        }
+        .btn-dark.btn-modern:hover {
+            background: linear-gradient(135deg, #212529, #000000);
+            color: #ffffff;
+        }
+        .table-responsive {
+            margin-top: 15px;
+        }
+        .dataTables_wrapper .dataTables_filter input, 
+        .dataTables_wrapper .dataTables_length select {
+            border-radius: 6px;
+            border: 1px solid #ced4da;
+            padding: 5px;
+        }
+        table.dataTable thead th, table.dataTable thead td {
+            border-bottom: 2px solid #dee2e6;
+            color: #495057;
+            font-weight: 600;
+        }
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .modal-header {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #dee2e6;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+        .modal-title {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .form-control, .form-select {
+            border-radius: 6px;
+        }
+        .form-text {
+            font-weight: 500;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+	<input type="hidden" id="txtApp" value="nomina">
+	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+		<symbol id="bootstrap" viewBox="0 0 118 94">
+		  <title>Bootstrap</title>
+		  <path fill-rule="evenodd" clip-rule="evenodd" d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
+		</symbol>
+		<symbol id="home" viewBox="0 0 16 16">
+		  <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"/>
+		</symbol>
+		<symbol id="speedometer2" viewBox="0 0 16 16">
+		  <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"/>
+		  <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"/>
+		</symbol>
+		<symbol id="table" viewBox="0 0 16 16">
+		  <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+		</symbol>
+		<symbol id="people-circle" viewBox="0 0 16 16">
+		  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+		  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+		</symbol>
+		<symbol id="grid" viewBox="0 0 16 16">
+		  <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/>
+		</symbol>
+		<symbol id="nuevo" viewBox="0 0 16 16">
+			<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h7a.5.5 0 0 0 0-1h-7z"/>
+		  </symbol>
+		  <symbol id="nuevoEmp" viewBox="0 0 16 16">
+			<path d="images/Grupo-Emporium-Transparente-fondos-oscuros.png"/>
+		  </symbol>
+
+	  </svg>
+
+	  <header class="sticky-top">
+		<div class="px-3 py-2 bg-dark text-white colorTexto barra-princpal sticky-top">
+		  <div class="container">
+			<div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+			  <a href="#" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+				<img src="images/Grupo-Emporium-Transparente-fondos-oscuros.png" class="img-responsive" style="width: 100px; height: auto;">
+			  </a>
+	
+			  <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+				<li>
+				  <a href="principal.html" class="nav-link text-white">
+					<svg class="bi d-block mx-auto mb-1 " width="24" height="24"><use xlink:href="#home"/></svg>
+					Menú principal
+				  </a>
+				</li>
+				<li>
+				  <a href="index.html" class="nav-link text-white CierraSesion">
+					<svg class="bi d-block mx-auto mb-1 " width="24" height="24">
+						<use xlink:href="#nuevo"/>
+					  </svg>
+					Cerrar sesión
+				  </a>
+				</li>
+				<li>
+					<a href="#" class="nav-link text-white">
+					  <svg class="bi d-block mx-auto mb-1 " width="24" height="24">
+						  <use xlink:href="#people-circle"/>
+						</svg>
+					  <p id="usaSistema" class="mb-0"></p>
+					</a>
+				  </li>
+			  </ul>
+			</div>
+		  </div>
+		</div>
+	  </header>
+	<br>
+	<div class="container">
+		<div class="row mt-4 mb-4">
+			<div class="col-sm-12" align="center">
+				<h3 class="app-title">REPORTES DE NOMINA</h3>
+			</div>
+		</div>
+		<div class="row mb-4">
+			<div class="col-sm-12" align="center">
+				<div class="d-flex flex-wrap gap-3 justify-content-center">
+					<button class="btn btn-dark btn-modern editar" data-bs-toggle="modal" data-bs-target="#modalChecador" onclick="HacerAlgo(0,1)"><i class="fa-solid fa-file-pen me-2"></i>IMPORTAR REPORTE DE CHECADAS</button>
+					<a href="incidencias.html" style="text-decoration: none;"><button class="btn btn-dark btn-modern editar"><i class="fa-solid fa-file-pen me-2"></i>REGISTRO DE INCIDENCIAS</button></a>
+				</div>
+			</div>
+		</div>
+		<BR>
+		<div class="row" id="filtrosNomina">
+				<div class="col-sm-12" align="center">
+					<h4>Periodo a consultar:</h4>
+					<select  id="nominaReporte" class="form-control nominaReporte">
+						
+					</select>
+				</div>
+			</div>
+			<div class="row mt-5 mb-3">
+				<div class="col-sm-12" align="center">
+					<h3 class="app-title">REPORTE GENERAL</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<table id="ReporteGeneral" class="display" style="width:100%">
+						<thead>
+							<tr>
+								<th>Empleado</th>
+								<th>Correctos</th>
+								<th>Retardos</th>
+								<th>Faltas</th>
+							</tr>
+						</thead>
+						<tbody class="pruebaRetardos">
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<hr>
+			<div class="row mt-5">
+				<div class="col-sm-12" align="center">
+					<h3 class="app-title">ENTRADAS</h3>
+					<div class="tablaNomina mb-5 mt-3">
+
+					</div>
+				</div>
+				<div class="col-sm-12" align="center">
+					<h3 class="app-title">SALIDAS</h3>
+					<div class="tablaNominaSalidas mt-3">
+
+					</div>
+				</div>
+				
+			</div>
+		
+	</div>
+
+<div class="modal fade bd-example-modal-lg" id="modalIncidencia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body p-4">
+			<div class="row">
+				<div class="col-sm-12" align="center">
+					<h3 class="modal-title" id="exampleModalLabel">INCIDENCIA ASOCIADA</h3>
+				</div>
+			</div>
+			<div class="row">
+				<form id="infoIncidenciaForm">
+					<input type="hidden" id="txtidEmpleado">
+					<div class="row">
+						<div class="col-sm-6">
+							<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;">Folio incidencia</label>
+						<input type="text" class="form-control" name="txtIdPase" id="txtIdPase" disabled>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;">Fecha incidencia</label>
+							<input type="date"  class="form-control" name="txt_fecha" id="txt_fecha" disabled>
+						</div>
+						<div class="col-sm-6">
+							<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;">Empleado</label>
+							<input type="text" class="form-control" name="txt_empleado" id="txt_empleado" disabled>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;">Área</label>
+							<input type="text" class="form-control" name="txt_area" id="txt_area" disabled>	
+						</div>
+						<div class="col-sm-6">
+							<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;">Entrada</label>
+							<input type="time" class="form-control" name="txt_entrada" id="txt_entrada" disabled>	
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-6">
+							<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;">Salida</label>
+							<input type="time" class="form-control" name="txt_salida" id="txt_salida" disabled>	
+						</div>
+						<div class="col-sm-6">
+							<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;">Tipo de incidencia</label>
+							<input type="text" class="form-control" name="txt_tipo" id="txt_tipo" disabled>	
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-6">
+							<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;" id="emailHelp">Motivo</label>
+							<input type="text" id="txt_motivo" class="form-control motivoInc" disabled>
+
+							<label class="form-label text-muted fw-bold d-none showHorarios" style="font-size: 0.85rem;" id="horariosFijo">Horarios</label><br>
+							<div class="showHorarios d-none" id="muestraCambioFijos">
+
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;">Fecha de registro</label>
+							<input type="datetime" id="txt_fechaRegistro" class="form-control" disabled>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-sm-6">
+							<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;">Status incidencia</label>
+							<input type="text" id="txtStatus" class="form-control" disabled>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class="modal-footer border-0 justify-content-center pb-4">
+		  <button type="button" class="btn btn-secondary px-4" style="border-radius: 8px; font-weight: 600;" data-bs-dismiss="modal">CERRAR</button>
+		  <button type="button" class="btn btn-dark btn-modern" id="apruebaIncidencia" onclick="apruebaIncidenciaNomina('nomina')">APROBAR INCIDENCIA</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+  <div class="modal fade bd-example-modal-lg" id="modalCarga" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content" style="background-color: rgba(0,0,0,.0001) !important;
+	  border: 0;">
+		<div class="modal-body">
+			<div class="row">
+				<div class="col-sm-12" align="center">
+					<img class="img-responsive" src="images/loading-gifgif.gif">
+				</div>
+			</div>
+			
+		</div>
+	  </div>
+	</div>
+  </div>
+  <div class="modal fade bd-example-modal-lg" id="modalChecador" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body p-4">
+			<div class="row">
+				<div class="col-sm-12" align="center">
+					<h3 class="modal-title" id="exampleModalLabel">IMPORTAR REPORTE CHECADOR</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<input type="file" id="fileUpload" class="form-control" />
+						<!-- <input type="button" id="upload" value="Upload"  /> -->
+						<br/>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12" align="center">
+					<h3>NUEVO PERIODO</h3>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-6">
+					<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;">Fecha de inicio periodo</label>
+					<input type="date" id="txtInicioPeriodo" class="form-control">
+				</div>
+				<div class="col-sm-6">
+					<label class="form-label text-muted fw-bold" style="font-size: 0.85rem;">Fecha de fin periodo</label>
+					<input type="date" id="txtFinPeriodo" class="form-control">
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer border-0 justify-content-center pb-4">
+		  <button type="button" class="btn btn-secondary px-4" style="border-radius: 8px; font-weight: 600;" data-bs-dismiss="modal">CERRAR</button>
+		  <button type="button" class="btn btn-dark btn-modern agregarEmpleado px-4" onclick="UploadProcess(this)">IMPORTAR</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+</body>
+</html>
