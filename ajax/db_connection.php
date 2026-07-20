@@ -17,6 +17,6 @@ if ($con->connect_error) {
 }
 
 // Forzar la zona horaria para que NOW() coincida con tu hora local
-//new change test
+//Este es un nuevo cambio
 $con->query("SET time_zone = '-06:00'");
  
