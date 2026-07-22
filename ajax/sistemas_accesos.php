@@ -63,7 +63,7 @@
 
         }else{
             //$query = "SELECT aa.*, CONCAT(em.apellido_p, ' ', em.apellido_m, ' ', em.nombre, ' ', em.segundoNombre) as Nombre, ap.* FROM tr_accesoapps aa INNER JOIN tc_empleados em ON em.idEmpleado = aa.idEmpleado INNER JOIN tc_aplicaciones ap ON ap.idApp = aa.idApp ORDER BY aa.idEmpleado";
-            $query = "SELECT CONCAT(em.apellido_p, ' ', em.apellido_m, ' ', em.nombre, ' ', em.segundoNombre) as Nombre, em.idEmpleado FROM tr_accesoapps aa INNER JOIN tc_empleados em ON em.idEmpleado = aa.idEmpleado GROUP BY em.idEmpleado ORDER BY em.idEmpleado";
+            $query = "SELECT CONCAT(em.apellido_p, ' ', em.apellido_m, ' ', em.nombre, ' ', em.segundoNombre) as Nombre, em.idEmpleado, (SELECT password FROM tc_usuarios WHERE idEmp = em.idEmpleado LIMIT 1) as Password FROM tr_accesoapps aa INNER JOIN tc_empleados em ON em.idEmpleado = aa.idEmpleado GROUP BY em.idEmpleado ORDER BY em.idEmpleado";
             if (!$result = mysqli_query($con, $query)) {
                 exit(mysqli_error($con));
             }
@@ -72,6 +72,7 @@
                     $respuesta[] = array(
                         "nombreEmpleado" => $row["Nombre"],
                         "idEmpleado" => $row["idEmpleado"],
+                        "password" => $row["Password"] ? $row["Password"] : "Sin contraseña",
                     );
                     
                 }

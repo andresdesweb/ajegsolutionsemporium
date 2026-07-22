@@ -3729,6 +3729,7 @@ function muestraAccesosEmpleados() {
                         <thead>
                             <tr>
                                 <th>Nombre empleado</th>
+                                <th>password</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -3741,6 +3742,7 @@ function muestraAccesosEmpleados() {
                     $(".dataAccesos").append(
                         `<tr>
                             <td>${aplicacion.nombreEmpleado}</td>
+                            <td>${aplicacion.password}</td>
                             <td> 
                                 <button class=" btn-success editar" data-bs-toggle="modal" data-bs-target="#modalAgregaCuenta" onclick="ModalAccesos(${aplicacion.idEmpleado})"><i class="fa-solid fa-user-pen"> VER ACCESOS</i></button>
                             </td>
