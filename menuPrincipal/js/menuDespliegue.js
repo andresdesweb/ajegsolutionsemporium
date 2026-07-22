@@ -55,6 +55,14 @@ $(document).ready(function () {
                 </div>
             </a>
         </div>
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="calendario.html" class="modern-card">
+                <h5 class="card-title fw-bold" style="color: #2c3e50; min-height: 48px; display: flex; align-items: center; justify-content: center;">Calendario</h5>
+                <div class="mt-4" style="color: #b02a2a">
+                    <i class="fa-solid fa-calendar fa-4x"></i>
+                </div>
+            </a>
+        </div>
           `
         );	
         },
