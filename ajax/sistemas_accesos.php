@@ -32,6 +32,15 @@
                 $vacacionesPer = $_POST["vacacionesPer"];
                 $incidenciasPer = $_POST["incidenciasPer"];
                 $politicasPer = $_POST["politicasPer"];
+
+                if(isset($_POST["password"]) && trim($_POST["password"]) != ""){
+                    $password = $_POST["password"];
+                    $queryPass = "UPDATE tc_usuarios SET password = '$password' WHERE idEmp = '$empleado'";
+                    if (!$result = mysqli_query($con, $queryPass)) {
+                        exit(mysqli_error($con));
+                    }
+                }
+
                 $query = "UPDATE tr_accesoapps SET nivelAcceso = '$personalPer' WHERE idApp = 1 AND idEmpleado = '$empleado'";
                 if (!$result = mysqli_query($con, $query)) {
                     exit(mysqli_error($con));

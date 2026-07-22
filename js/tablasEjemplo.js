@@ -3829,6 +3829,7 @@ function saveAccessoApp(clickedElement){
     var incidenciasPer = $("#incidencias").val()
     var politicasPer = $("#politicas").val()
     var registraFijos = $("#incidenciasFijos").val()
+    var password = $("#passwordEpleado").val()
     if(registraFijos == 2 && incidenciasPer == 2){
         incidenciasPer = 4;
     }
@@ -3844,7 +3845,8 @@ function saveAccessoApp(clickedElement){
             personalPer:personalPer,
             vacacionesPer:vacacionesPer,
             incidenciasPer:incidenciasPer,
-            politicasPer:politicasPer
+            politicasPer:politicasPer,
+            password:password
         },
         success: function (data) {
             swal("Accesos actualizados", "", "success");
