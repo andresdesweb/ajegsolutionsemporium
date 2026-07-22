@@ -3729,6 +3729,7 @@ function muestraAccesosEmpleados() {
                         <thead>
                             <tr>
                                 <th>Nombre empleado</th>
+                                <th>password</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -3741,6 +3742,7 @@ function muestraAccesosEmpleados() {
                     $(".dataAccesos").append(
                         `<tr>
                             <td>${aplicacion.nombreEmpleado}</td>
+                            <td>${aplicacion.password}</td>
                             <td> 
                                 <button class=" btn-success editar" data-bs-toggle="modal" data-bs-target="#modalAgregaCuenta" onclick="ModalAccesos(${aplicacion.idEmpleado})"><i class="fa-solid fa-user-pen"> VER ACCESOS</i></button>
                             </td>
@@ -3827,6 +3829,7 @@ function saveAccessoApp(clickedElement){
     var incidenciasPer = $("#incidencias").val()
     var politicasPer = $("#politicas").val()
     var registraFijos = $("#incidenciasFijos").val()
+    var password = $("#passwordEpleado").val()
     if(registraFijos == 2 && incidenciasPer == 2){
         incidenciasPer = 4;
     }
@@ -3842,7 +3845,8 @@ function saveAccessoApp(clickedElement){
             personalPer:personalPer,
             vacacionesPer:vacacionesPer,
             incidenciasPer:incidenciasPer,
-            politicasPer:politicasPer
+            politicasPer:politicasPer,
+            password:password
         },
         success: function (data) {
             swal("Accesos actualizados", "", "success");
