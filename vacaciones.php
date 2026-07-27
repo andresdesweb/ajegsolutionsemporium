@@ -331,9 +331,9 @@ $pdf->SetTextColor(255);
 $pdf->Cell(10,8,'III.05',0,0,'C',1);
 $pdf->SetTextColor(0);
 $pdf->Cell(60,7,utf8_decode('Dias Disponibles para Disfrute'),1,0,'L');
-$pdf->Cell(20,7,$diasDisponiblesDisfrute,1,0,'L');
+$pdf->Cell(20,7,$diasDisponiblesDisfrute - $diasSolicitados,1,0,'L');
 $pdf->Cell(45,7,utf8_decode('Saldo Actual Vacaciones'),1,0,'L');
-$pdf->Cell(30,7,$diasDisponiblesDisfrute,1,0,'L');
+$pdf->Cell(30,7,$diasDisponiblesDisfrute - $diasSolicitados,1,0,'L');
 $pdf->Cell(25,7,'',1,1,'L');
 $pdf->ln();
 
