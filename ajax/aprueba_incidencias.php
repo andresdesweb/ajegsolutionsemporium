@@ -1,4 +1,7 @@
 <?php
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP; // Requerido para activar la depuración
         $respuesta=array();
         // include Database connection file 
         include("db_connection.php");
@@ -61,49 +64,54 @@
             <b>Incidencia registrada:</b>'.$incidenciaNombre.'<br>
             <b>Fecha de incidencia:</b>'.$txtFechaPase.'<br>
             <b>Motivo: </b>'.$txtMotivo.'<br>';
-        //MAIL
-        use PHPMailer\PHPMailer\PHPMailer;
-        use PHPMailer\PHPMailer\Exception;
-        
+        // --- INICIO DE BLOQUE MAIL ---
         require 'sendMail/src/Exception.php';
         require 'sendMail/src/PHPMailer.php';
         require 'sendMail/src/SMTP.php';
         
-        //Create an instance; passing `true` enables exceptions
-        $mail = new PHPMailer(true);
+        // 1. Validar si realmente tenemos un correo de destino
+        if (empty($mailEmpleado)) {
+            $respuesta["debug_correo"] = "FALLO: La variable de correo destino está vacía.";
+        } else {
+            $mail = new PHPMailer(true);
+            
+            try {
+                // Desactivamos el debug del servidor para que no rompa el formato JSON
+                $mail->SMTPDebug = 0; 
         
-        try {
-            //Server settings
-            $mail->isSMTP();                                            //Send using SMTP
-            $mail->Host       = 'smtp.office365.com';                     //Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $mail->Username   = 'grupo_emporium@outlook.com';                     //SMTP username
-            $mail->Password   = 'rivera#2021';                               //SMTP password
-            $mail->SMTPSecure = 'STARTTLS';            //Enable implicit TLS encryption
-            $mail->Port       = 587;                                   //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-        
-            //Recipients
-            $mail->setFrom('grupo_emporium@outlook.com', 'Notificaciones Emporium');
-            $mail->addAddress($mailEmpleado, 'Grupo emporium');     //Add a recipient
-            //$mail->addCC('cc@example.com');
-            //$mail->addBCC('bcc@example.com');
-        
-            //Attachments
-            // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-            //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-        
-            //Content
-            $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = 'Notificaciones incidencias';
-            $mail->Body  = $mensaje; 
-            $mail->MsgHTML = $mensaje;
-            $mail->AltBody = $mensaje;       
-            $mail->send();
-            //echo 'Message has been sent';
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                // Configuración del servidor
+                $mail->isSMTP();                                            
+                $mail->Host       = 'smtp.gmail.com';                     
+                $mail->SMTPAuth   = true;                                   
+                $mail->Username   = 'serviciosdigitales@grupoemporium.com.mx';                     
+                $mail->Password   = 'vhsrizwvxfzzisxd'; 
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
+                $mail->Port       = 465;                                  
+            
+                // Destinatarios
+                $mail->setFrom('grupo_emporium@outlook.com', 'Notificaciones Emporium');
+                $mail->addAddress($mailEmpleado, 'GRUPO EMPORIUM');     
+            
+                // Contenido
+                $mail->isHTML(true);                                  
+                $mail->Subject = 'Notificaciones incidencias';
+                $mail->Body  = $mensaje; 
+                $mail->AltBody = $mensaje;       
+                
+                $mail->send();
+                
+                // Si llega hasta aquí, se envió con éxito
+                $respuesta["debug_correo"] = "EXITO: Enviado correctamente a " . $mailEmpleado;
+                
+            } catch (Exception $e) {
+                // Captura errores específicos de PHPMailer
+                $respuesta["debug_correo"] = "ERROR MAILER: " . $mail->ErrorInfo;
+            } catch (\Throwable $e) {
+                // Captura errores fatales generales de PHP (ej. fallos al instanciar clases)
+                $respuesta["debug_correo"] = "ERROR PHP: " . $e->getMessage();
+            }
         }
-    //MAIL
+        // --- FIN DE BLOQUE MAIL ---
 
     print json_encode($respuesta);
 ?>

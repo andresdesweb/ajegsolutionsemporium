@@ -4,7 +4,7 @@
         include("db_connection.php");
         $txtEmpleadoNombre = $_POST["txtEmpleadoNombre"];
  
-        $query = "SELECT CONCAT(apellido_p, ' ', apellido_m, ' ', nombre, ' ', segundoNombre) as Nombre FROM tc_empleados WHERE idEmpleado = '$txtEmpleadoNombre'";
+        $query = "SELECT CONCAT(apellido_p, ' ', apellido_m, ' ', nombre, ' ', segundoNombre) as Nombre, fechaNacimiento FROM tc_empleados WHERE idEmpleado = '$txtEmpleadoNombre'";
         if (!$result = mysqli_query($con, $query)) {
             exit(mysqli_error($con));
         }
@@ -12,6 +12,7 @@
             while($row = mysqli_fetch_array($result)){
                 $respuesta[] = array(
                     "Nombre" => $row["Nombre"],
+                    "fechaNacimiento" => $row["fechaNacimiento"],
                 );
             }
             

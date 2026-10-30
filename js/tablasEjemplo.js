@@ -179,6 +179,7 @@ function readRecords(tipoVista) {
                             <thead>
                                 <tr>
                                     <th># checador</th>
+                                    <th>id Empleado</th>
                                     <th>Nombre empleado</th>
                                     <th>Departamento</th>
                                     <th>Dirección</th>
@@ -197,6 +198,7 @@ function readRecords(tipoVista) {
                         $(".dataEmpleados").append(
                             `<tr>
                                 <td class="idEmpleado">${empleado.idChecador}</td>
+                                <td>${empleado.idEmpleado}</td>
                                 <td>${empleado.apellido_p} ${empleado.apellido_m} ${empleado.Nombre} ${empleado.SegundoNombre}</td>
                                 <td>${empleado.nombreDepartamento}</td>
                                 <td>${empleado.nombreDireccion}</td>
@@ -1405,7 +1407,7 @@ function addRecordIncidencia(clickedElement) {
             $(this).removeClass("error-msg-input")
         });
     }else{
-        var validaInserta = validaFechaParaInsertar(txtFechaInicio)
+        var validaInserta = (txtIncidencia == "31") ? true : validaFechaParaInsertar(txtFechaInicio)
         if(validaInserta){
             $("#registraIncidencia").attr("disabled", "yes")
             $.post("ajax/addRecord_incidencias.php", {
@@ -1983,6 +1985,159 @@ function validaFechaParaInsertar(txtFechaInicio){
     return retrunValid;
 }
 /* INCIDENCIAS */
+
+// ==========================================
+// LÓGICA PARA INCIDENCIA: DAY OFF
+// ==========================================
+function esDayOff() {
+    let tipoIncidencia = $("#txtIncidencia").val();
+    let textoIncidencia = $("#txtIncidencia option:selected").text().trim().toUpperCase();
+    return tipoIncidencia === "31" || textoIncidencia === "DAY OFF";
+}
+
+function restablecerFechasDayOff() {
+    $("#txtFechaInicio").removeAttr("min").removeAttr("max");
+    $("#txtFechaFin").removeAttr("min").removeAttr("max");
+    $("#txtFechaFin").prop("readonly", false);
+    $("#txtFechaFin").css({
+        "pointer-events": "",
+        "background-color": ""
+    });
+}
+
+function verificarYConfigurarDayOff() {
+    if (esDayOff()) {
+        let idEmpleado = $("#txtEmpleadoNombre").val();
+
+        if (!idEmpleado) {
+            swal("Por favor seleccione un empleado para consultar su mes de cumpleaños.", "", "info");
+            $("#txtFechaInicio").val("").removeAttr("min").removeAttr("max");
+            $("#txtFechaFin").val("").removeAttr("min").removeAttr("max");
+            $("#txtFechaFin").prop("readonly", true).css({
+                "pointer-events": "none",
+                "background-color": "#e9ecef"
+            });
+            return;
+        }
+
+        // Consultar la fecha de nacimiento del empleado en tc_empleados
+        $.ajax({
+            url: "ajax/getInfoEmpleado_incidencias.php",
+            method: "POST",
+            dataType: "JSON",
+            data: {
+                txtEmpleadoNombre: idEmpleado
+            },
+            success: function (data) {
+                if (data && data.length > 0 && data[0].fechaNacimiento && data[0].fechaNacimiento !== "0000-00-00") {
+                    let partes = data[0].fechaNacimiento.split(/[-/]/);
+                    let mesCumple = parseInt(partes[1], 10);
+
+                    if (isNaN(mesCumple) || mesCumple < 1 || mesCumple > 12) {
+                        swal("La fecha de nacimiento del empleado no contiene un mes válido.", "", "warning");
+                        restablecerFechasDayOff();
+                        return;
+                    }
+
+                    let anioActual = new Date().getFullYear();
+                    let mesStr = String(mesCumple).padStart(2, '0');
+                    let diasEnMes = new Date(anioActual, mesCumple, 0).getDate();
+                    let ultimoDiaStr = String(diasEnMes).padStart(2, '0');
+
+                    let fechaMin = `${anioActual}-${mesStr}-01`;
+                    let fechaMax = `${anioActual}-${mesStr}-${ultimoDiaStr}`;
+
+                    // Restringir el calendario de txtFechaInicio únicamente al mes del cumpleaños
+                    $("#txtFechaInicio").attr("min", fechaMin).attr("max", fechaMax);
+
+                    // Configurar txtFechaFin: mismo rango y no editable
+                    $("#txtFechaFin").attr("min", fechaMin).attr("max", fechaMax);
+                    $("#txtFechaFin").prop("readonly", true);
+                    $("#txtFechaFin").css({
+                        "pointer-events": "none",
+                        "background-color": "#e9ecef"
+                    });
+
+                    // Si txtFechaInicio ya contenía una fecha, validar si está dentro del mes permitido
+                    let valorInicio = $("#txtFechaInicio").val();
+                    if (valorInicio) {
+                        if (valorInicio < fechaMin || valorInicio > fechaMax) {
+                            $("#txtFechaInicio").val("");
+                            $("#txtFechaFin").val("");
+                        } else {
+                            $("#txtFechaFin").val(valorInicio);
+                        }
+                    } else {
+                        $("#txtFechaFin").val("");
+                    }
+                } else {
+                    swal("El empleado seleccionado no tiene registrada su fecha de nacimiento en el sistema.", "", "warning");
+                    restablecerFechasDayOff();
+                }
+            },
+            error: function () {
+                swal("Error al consultar los datos del empleado.", "", "error");
+                restablecerFechasDayOff();
+            }
+        });
+    } else {
+        restablecerFechasDayOff();
+    }
+}
+
+$(document).ready(function () {
+    // 1. Evento change en el select con id txtIncidencia
+    $(document).on("change", "#txtIncidencia", function () {
+        verificarYConfigurarDayOff();
+    });
+
+    // 2. Evento change en txtEmpleadoNombre (por si se cambia el empleado teniendo DAY OFF seleccionado)
+    $(document).on("change", "#txtEmpleadoNombre", function () {
+        if (esDayOff()) {
+            verificarYConfigurarDayOff();
+        }
+    });
+
+    // 3. Al seleccionar la fecha en txtFechaInicio, asignar el mismo día a txtFechaFin
+    $(document).on("change input", "#txtFechaInicio", function () {
+        if (esDayOff()) {
+            let fecha = $(this).val();
+            let min = $(this).attr("min");
+            let max = $(this).attr("max");
+
+            if (fecha) {
+                if ((min && fecha < min) || (max && fecha > max)) {
+                    swal("Solo puede seleccionar un día dentro del mes de cumpleaños (" + min + " al " + max + ")", "", "warning");
+                    $(this).val("");
+                    $("#txtFechaFin").val("");
+                    return;
+                }
+                $("#txtFechaFin").val(fecha);
+            } else {
+                $("#txtFechaFin").val("");
+            }
+        }
+    });
+
+    // 4. Bloquear cualquier intento de modificar txtFechaFin manualmente
+    $(document).on("keydown keypress keyup paste drop mousedown", "#txtFechaFin", function (e) {
+        if (esDayOff()) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    $(document).on("change input", "#txtFechaFin", function () {
+        if (esDayOff()) {
+            $(this).val($("#txtFechaInicio").val());
+        }
+    });
+
+    // 5. Restablecer controles al cerrar el modal
+    $(document).on("hidden.bs.modal", "#modalIncidencias", function () {
+        restablecerFechasDayOff();
+    });
+});
 
 /* NOMINA FUNCIONES */
 function muestraNomina() {
@@ -3511,7 +3666,7 @@ function muestraSolicitudes(permiso,empleadoActual){
                 if(empleadoFolio == empleadoActual && permiso != 3){
                     autoriza = "NO";
                 }
-                let apruebaVacas = `<button class="btn btn-success" onclick="aprobarSolicitud(${solicitud.folio},${solicitud.numDias},1)">Aprobar</button>`;
+                let apruebaVacas = (empleadoActual == 39 || empleadoActual == "39") ? `<button class="btn btn-success" onclick="aprobarSolicitud(${solicitud.folio},${solicitud.numDias},1)">Aprobar</button>` : '';
                 let rechazavacas = `<button class="btn btn-success" onclick="aprobarSolicitud(${solicitud.folio},${solicitud.numDias},3)">Rechazar</button>`;
                 let cancelaVacas = `<button class="btn btn-danger" onclick="aprobarSolicitud(${solicitud.folio},${solicitud.numDias},4)">Cancelar</button>`;
 
@@ -3532,7 +3687,7 @@ function muestraSolicitudes(permiso,empleadoActual){
                             <td>${textoEstatus}</td>
                             <td>${solicitud.fechaAceptacion == '0000-00-00 00:00:00' ? '-' : solicitud.fechaAceptacion}</td>
                             <td><a href="vacaciones.php?folio=${folio}" target="_blank">VER</a></td>
-                            <td class="vacacionesRH">${autoriza == "SI" ? apruebaVacas : ''}</td>
+                            <td class="vacacionesRH">${(autoriza == "SI" && (empleadoActual == 39 || empleadoActual == "39")) ? apruebaVacas : ''}</td>
                             <td class="vacacionesRH">${autoriza == "SI" ? rechazavacas : ''}</td>
                          </tr>`
                     )

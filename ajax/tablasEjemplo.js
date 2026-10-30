@@ -3488,7 +3488,7 @@ function muestraSolicitudes(permiso,empleadoActual){
                 if(empleadoFolio == empleadoActual && permiso != 3){
                     autoriza = "NO";
                 }
-                let apruebaVacas = `<button class="btn btn-success" onclick="aprobarSolicitud(${solicitud.folio},${solicitud.numDias},1)">Aprobar</button>`;
+                let apruebaVacas = (empleadoActual == 39 || empleadoActual == "39") ? `<button class="btn btn-success" onclick="aprobarSolicitud(${solicitud.folio},${solicitud.numDias},1)">Aprobar</button>` : '';
                 let rechazavacas = `<button class="btn btn-success" onclick="aprobarSolicitud(${solicitud.folio},${solicitud.numDias},3)">Rechazar</button>`;
                 if(solicitud.activa == 1){
                     $(".dataSolicitudes").append(
@@ -3501,7 +3501,7 @@ function muestraSolicitudes(permiso,empleadoActual){
                             <td>${solicitud.activa == '1' ? 'NO APROBADA' : solicitud.activa == '3' ? 'RECHAZADA' : 'APROBADA'}</td>
                             <td>${solicitud.fechaAceptacion == '0000-00-00 00:00:00' ? '-' : solicitud.fechaAceptacion}</td>
                             <td><a href="vacaciones.php?folio=${folio}" target="_blank">VER</a></td>
-                            <td class="vacacionesRH">${autoriza == "SI" ? apruebaVacas : ''}</td>
+                            <td class="vacacionesRH">${(autoriza == "SI" && (empleadoActual == 39 || empleadoActual == "39")) ? apruebaVacas : ''}</td>
                             <td class="vacacionesRH">${autoriza == "SI" ? rechazavacas : ''}</td>
                          </tr>`
                     )

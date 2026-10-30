@@ -1,6 +1,7 @@
 <?php
         use PHPMailer\PHPMailer\PHPMailer;
         use PHPMailer\PHPMailer\Exception;
+        use PHPMailer\PHPMailer\SMTP; // Requerido para activar la depuración
 
         require 'sendMail/src/Exception.php';
         require 'sendMail/src/PHPMailer.php';
@@ -60,50 +61,45 @@
                     $mailEmpleado = $rowCorreoEmp["mail"];
                 }
             }
-            //MAIL
+            // --- INICIO DE BLOQUE MAIL ---
+            if (empty($mailEmpleado)) {
+                $respuesta["debug_correo"] = "FALLO: La variable de correo destino está vacía.";
+            } else {
+                $mail = new PHPMailer(true);
+                
+                try {
+                    $mail->SMTPDebug = 0; 
             
-            
-            //Create an instance; passing `true` enables exceptions
-            $mail = new PHPMailer(true);
-            
-            try {
-                //Server settings
-                $mail->isSMTP();                                            //Send using SMTP
-                $mail->Host       = 'smtp.office365.com';                     //Set the SMTP server to send through
-                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = 'grupo_emporium@outlook.com';                     //SMTP username
-                $mail->Password   = 'rivera#2021';                               //SMTP password
-                $mail->SMTPSecure = 'STARTTLS';            //Enable implicit TLS encryption
-                $mail->Port       = 587;                                   //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-            
-                //Recipients
-                $mail->setFrom('grupo_emporium@outlook.com', 'Notificaciones Emporium');
-                $mail->addAddress($mailEmpleado);     //Add a recipient
-                $mail->addAddress($mailEmpleado);               //Name is optional
-                $mail->addReplyTo($mailEmpleado, 'Information');
-                //$mail->addCC('cc@example.com');
-                //$mail->addBCC('bcc@example.com');
-            
-                //Attachments
-                // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-                //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-            
-                //Content
-                $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = 'Solicitud de vacaciones';
-                $mail->Body    = 'Su solicitud ha sido aprobada.<br>
-                <b>Folio: </b>'.$folio.'<br>
-                <b>Días solicitados:</b>'.$diasSolicitados.'<br>
-                <b>Fecha de registro solicitud:</b>'.$fechaRegistro.'<br>
-                <b>Fecha de aceptación: </b>'.$fechaAceptacion.'<br>';
-                $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-            
-                $mail->send();
-                //echo 'Message has been sent';
-            } catch (Exception $e) {
-                //echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                    $mail->isSMTP();                                            
+                    $mail->Host       = 'smtp.gmail.com';                     
+                    $mail->SMTPAuth   = true;                                   
+                    $mail->Username   = 'serviciosdigitales@grupoemporium.com.mx';                     
+                    $mail->Password   = 'vhsrizwvxfzzisxd'; 
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
+                    $mail->Port       = 465;                                  
+                
+                    $mail->setFrom('grupo_emporium@outlook.com', 'Notificaciones Emporium');
+                    $mail->addAddress($mailEmpleado, 'GRUPO EMPORIUM');     
+                
+                    $mail->isHTML(true);                                  
+                    $mail->Subject = 'Solicitud de vacaciones';
+                    $mail->Body    = 'Su solicitud ha sido aprobada.<br>
+                    <b>Folio: </b>'.$folio.'<br>
+                    <b>Días solicitados:</b>'.$diasSolicitados.'<br>
+                    <b>Fecha de registro solicitud:</b>'.$fechaRegistro.'<br>
+                    <b>Fecha de aceptación: </b>'.$fechaAceptacion.'<br>';
+                
+                    $mail->send();
+                    
+                    $respuesta["debug_correo"] = "EXITO: Enviado correctamente a " . $mailEmpleado;
+                    
+                } catch (Exception $e) {
+                    $respuesta["debug_correo"] = "ERROR MAILER: " . $mail->ErrorInfo;
+                } catch (\Throwable $e) {
+                    $respuesta["debug_correo"] = "ERROR PHP: " . $e->getMessage();
+                }
             }
-        //MAIL
+            // --- FIN DE BLOQUE MAIL ---
         }else if($accion == "3"){
             $queryPre = "UPDATE tr_solicitudvacaciones SET activa = 3 WHERE folioSolicitud = '$folio'";
             if (!$resultPre = mysqli_query($con, $queryPre)) {
@@ -132,49 +128,44 @@
                     $mailEmpleado = $rowCorreoEmp["mail"];
                 }
             }
-            //MAIL
+            // --- INICIO DE BLOQUE MAIL ---
+            if (empty($mailEmpleado)) {
+                $respuesta["debug_correo"] = "FALLO: La variable de correo destino está vacía.";
+            } else {
+                $mail = new PHPMailer(true);
+                
+                try {
+                    $mail->SMTPDebug = 0; 
             
-            
-            //Create an instance; passing `true` enables exceptions
-            $mail = new PHPMailer(true);
-            
-            try {
-                //Server settings
-                $mail->isSMTP();                                            //Send using SMTP
-                $mail->Host       = 'smtp.office365.com';                     //Set the SMTP server to send through
-                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = 'grupo_emporium@outlook.com';                     //SMTP username
-                $mail->Password   = 'rivera#2021';                               //SMTP password
-                $mail->SMTPSecure = 'STARTTLS';            //Enable implicit TLS encryption
-                $mail->Port       = 587;                                   //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-            
-                //Recipients
-                $mail->setFrom('grupo_emporium@outlook.com', 'Notificaciones Emporium');
-                $mail->addAddress($mailEmpleado);     //Add a recipient
-                $mail->addAddress($mailEmpleado);               //Name is optional
-                $mail->addReplyTo($mailEmpleado, 'Information');
-                //$mail->addCC('cc@example.com');
-                //$mail->addBCC('bcc@example.com');
-            
-                //Attachments
-                // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-                //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-            
-                //Content
-                $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = 'Solicitud de vacaciones';
-                $mail->Body    = 'Su solicitud ha sido rechazada.<br>
-                <b>Folio: </b>'.$folio.'<br>
-                <b>Días solicitados:</b>'.$diasSolicitados.'<br>
-                <b>Fecha de registro solicitud:</b>'.$fechaRegistro.'<br>';
-                $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-            
-                $mail->send();
-                //echo 'Message has been sent';
-            } catch (Exception $e) {
-                //echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                    $mail->isSMTP();                                            
+                    $mail->Host       = 'smtp.gmail.com';                     
+                    $mail->SMTPAuth   = true;                                   
+                    $mail->Username   = 'serviciosdigitales@grupoemporium.com.mx';                     
+                    $mail->Password   = 'vhsrizwvxfzzisxd'; 
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
+                    $mail->Port       = 465;                                  
+                
+                    $mail->setFrom('grupo_emporium@outlook.com', 'Notificaciones Emporium');
+                    $mail->addAddress($mailEmpleado, 'GRUPO EMPORIUM');     
+                
+                    $mail->isHTML(true);                                  
+                    $mail->Subject = 'Solicitud de vacaciones';
+                    $mail->Body    = 'Su solicitud ha sido rechazada.<br>
+                    <b>Folio: </b>'.$folio.'<br>
+                    <b>Días solicitados:</b>'.$diasSolicitados.'<br>
+                    <b>Fecha de registro solicitud:</b>'.$fechaRegistro.'<br>';
+                
+                    $mail->send();
+                    
+                    $respuesta["debug_correo"] = "EXITO: Enviado correctamente a " . $mailEmpleado;
+                    
+                } catch (Exception $e) {
+                    $respuesta["debug_correo"] = "ERROR MAILER: " . $mail->ErrorInfo;
+                } catch (\Throwable $e) {
+                    $respuesta["debug_correo"] = "ERROR PHP: " . $e->getMessage();
+                }
             }
-        //MAIL
+            // --- FIN DE BLOQUE MAIL ---
         }else if($accion == "4"){
             $queryPre = "UPDATE tr_solicitudvacaciones SET activa = 4 WHERE folioSolicitud = '$folio'";
             if (!$resultPre = mysqli_query($con, $queryPre)) {
@@ -224,43 +215,44 @@
                     $mailEmpleado = $rowCorreoEmp["mail"];
                 }
             }
-            //MAIL
+            // --- INICIO DE BLOQUE MAIL ---
+            if (empty($mailEmpleado)) {
+                $respuesta["debug_correo"] = "FALLO: La variable de correo destino está vacía.";
+            } else {
+                $mail = new PHPMailer(true);
+                
+                try {
+                    $mail->SMTPDebug = 0; 
             
-            
-            //Create an instance; passing `true` enables exceptions
-            $mail = new PHPMailer(true);
-            
-            try {
-                //Server settings
-                $mail->isSMTP();                                            //Send using SMTP
-                $mail->Host       = 'smtp.office365.com';                     //Set the SMTP server to send through
-                $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-                $mail->Username   = 'grupo_emporium@outlook.com';                     //SMTP username
-                $mail->Password   = 'rivera#2021';                               //SMTP password
-                $mail->SMTPSecure = 'STARTTLS';            //Enable implicit TLS encryption
-                $mail->Port       = 587;                                   //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-            
-                //Recipients
-                $mail->setFrom('grupo_emporium@outlook.com', 'Notificaciones Emporium');
-                $mail->addAddress($mailEmpleado);     //Add a recipient
-                $mail->addAddress($mailEmpleado);               //Name is optional
-                $mail->addReplyTo($mailEmpleado, 'Information');
-            
-                //Content
-                $mail->isHTML(true);                                  //Set email format to HTML
-                $mail->Subject = 'Solicitud de vacaciones - Cancelada';
-                $mail->Body    = 'Su solicitud de vacaciones aprobada ha sido cancelada y los días correspondientes han sido restituidos.<br>
-                <b>Folio: </b>'.$folio.'<br>
-                <b>Días solicitados:</b>'.$diasSolicitados.'<br>
-                <b>Fecha de registro solicitud:</b>'.$fechaRegistro.'<br>';
-                $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-            
-                $mail->send();
-                //echo 'Message has been sent';
-            } catch (Exception $e) {
-                //echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                    $mail->isSMTP();                                            
+                    $mail->Host       = 'smtp.gmail.com';                     
+                    $mail->SMTPAuth   = true;                                   
+                    $mail->Username   = 'serviciosdigitales@grupoemporium.com.mx';                     
+                    $mail->Password   = 'vhsrizwvxfzzisxd'; 
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
+                    $mail->Port       = 465;                                  
+                
+                    $mail->setFrom('grupo_emporium@outlook.com', 'Notificaciones Emporium');
+                    $mail->addAddress($mailEmpleado, 'GRUPO EMPORIUM');     
+                
+                    $mail->isHTML(true);                                  
+                    $mail->Subject = 'Solicitud de vacaciones - Cancelada';
+                    $mail->Body    = 'Su solicitud de vacaciones aprobada ha sido cancelada y los días correspondientes han sido restituidos.<br>
+                    <b>Folio: </b>'.$folio.'<br>
+                    <b>Días solicitados:</b>'.$diasSolicitados.'<br>
+                    <b>Fecha de registro solicitud:</b>'.$fechaRegistro.'<br>';
+                
+                    $mail->send();
+                    
+                    $respuesta["debug_correo"] = "EXITO: Enviado correctamente a " . $mailEmpleado;
+                    
+                } catch (Exception $e) {
+                    $respuesta["debug_correo"] = "ERROR MAILER: " . $mail->ErrorInfo;
+                } catch (\Throwable $e) {
+                    $respuesta["debug_correo"] = "ERROR PHP: " . $e->getMessage();
+                }
             }
-        //MAIL
+            // --- FIN DE BLOQUE MAIL ---
         }
             
 
